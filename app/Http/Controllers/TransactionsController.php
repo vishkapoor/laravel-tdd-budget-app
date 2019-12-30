@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class TransactionsController extends Controller
@@ -11,9 +13,11 @@ class TransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Category $category)
     {
-        //
+        $transactions = Transaction::byCategory($category)->get();
+
+        return view('transactions.index', compact('transactions'));
     }
 
     /**
@@ -34,7 +38,15 @@ class TransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'description' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'amount' => 'required|numeric'
+        ]);
+
+        $transaction = Transaction::create($request->all());
+
+        return redirect()->route('transactions.index');
     }
 
     /**

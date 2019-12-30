@@ -2,7 +2,6 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Models\Category;
-use App\Models\Transaction;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -17,12 +16,12 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(Transaction::class, function (Faker $faker) {
+$factory->define(Category::class, function (Faker $faker) {
+	
+	$name = $faker->sentence(1);
+
     return [
-        'description' => $faker->sentence(10),
-        'amount' => $faker->numberBetween(5,10),
-        'category_id' => function() {
-        	return create(Category::class)->id;
-        }
+        'name' => $name,
+        'slug' => str_slug($name)
     ];
 });

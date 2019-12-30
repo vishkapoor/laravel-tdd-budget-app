@@ -11,7 +11,21 @@
 |
 */
 
-Route::get('/transactions', 'TransactionsController@index');
+Route::get('/transactions/{category?}', [
+	'uses' => 'TransactionsController@index',
+	'as' => 'transactions.index'
+]);
+
+Route::post('/transactions', [
+	'uses' => 'TransactionsController@store',
+	'as' => 'transactions.store'
+]);
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
