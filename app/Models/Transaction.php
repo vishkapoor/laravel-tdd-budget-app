@@ -24,9 +24,14 @@ class Transaction extends Model
     public static function boot()
     {
     	parent::boot();
-    	
+
     	static::addGlobalScope('user', function($query) {
     		$query->where('user_id', auth()->id());
     	});
+
+    	static::saving(function($transaction) {
+    		$transaction->user_id = $transaction->user_id ?: auth()->id();
+    	});
+
     }
 }
