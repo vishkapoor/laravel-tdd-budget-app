@@ -20,4 +20,13 @@ class Transaction extends Model
     {
     	return $this->belongsTo(Category::class);
     }
+
+    public static function boot()
+    {
+    	parent::boot();
+    	
+    	static::addGlobalScope('user', function($query) {
+    		$query->where('user_id', auth()->id());
+    	});
+    }
 }

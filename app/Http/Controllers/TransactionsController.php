@@ -27,7 +27,8 @@ class TransactionsController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('transactions.create', compact('categories'));
     }
 
     /**

@@ -23,6 +23,9 @@ $factory->define(Transaction::class, function (Faker $faker) {
         'amount' => $faker->numberBetween(5,10),
         'category_id' => function() {
         	return create(Category::class)->id;
+        },
+        'user_id' => function() {
+        	return create('App\User')->id;
         }
     ];
 });

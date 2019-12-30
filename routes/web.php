@@ -11,15 +11,29 @@
 |
 */
 
-Route::get('/transactions/{category?}', [
-	'uses' => 'TransactionsController@index',
-	'as' => 'transactions.index'
-]);
+Route::group([
+	'middleware' => ['auth'],
+	'prefix' => 'transactions'
+], function() {
 
-Route::post('/transactions', [
-	'uses' => 'TransactionsController@store',
-	'as' => 'transactions.store'
-]);
+
+	Route::get('/create', [
+		'uses' => 'TransactionsController@create',
+		'as' => 'transactions.create'
+	]);
+
+	Route::get('/{category?}', [
+		'uses' => 'TransactionsController@index',
+		'as' => 'transactions.index'
+	]);
+	
+	Route::post('/', [
+		'uses' => 'TransactionsController@store',
+		'as' => 'transactions.store'
+	]);
+
+});
+
 
 
 Route::get('/', function () {

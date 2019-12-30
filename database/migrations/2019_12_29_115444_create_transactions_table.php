@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->bigInteger('category_id')->unsigned();
             $table->string('description');
             $table->float('amount');
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
         });
     }

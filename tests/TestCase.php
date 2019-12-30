@@ -11,10 +11,13 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    protected $user;
+
     protected function setUp() : void
     {
     	parent::setUp();
-    	$this->disableExceptionHandling();
+        $this->user = create('App\User');
+    	$this->signIn($this->user)->disableExceptionHandling();
     }
 
     protected function disableExceptionHandling()
@@ -27,6 +30,36 @@ abstract class TestCase extends BaseTestCase
     {
     	app()->instance(ExceptionHandler::class, $this->oldExceptionHandler);
     	return $this;
+    }
+
+    protected function signIn($user)
+    {
+        $this->actingAs($user);
+        return $this;
+    }
+
+    protected function signOut()
+    {
+        $this->post(route('logout'));
+        return $this;
+    }
+
+    protected function make($class, $attributes = [], $times = null)
+    {
+        return make(
+            $class, 
+            array_merge(['user_id' => $this->user->id], $attributes),
+            $times
+        );
+    }
+
+    protected function create($class, $attributes = [], $times = null)
+    {
+        return create(
+            $class, 
+            array_merge(['user_id' => $this->user->id], $attributes),
+            $times
+        );
     }
 }
 
@@ -41,3 +74,5 @@ Class PassThroughHandler extends Handler
 		throw $e;
 	}
 }
+
+

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Transactions;
 
 use App\Models\Category;
 use App\Models\Transaction;
@@ -9,40 +9,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class TransactionsTest extends TestCase
+class CreateTransactionsTest extends TestCase
 {
     use RefreshDatabase;
     
-    /** @test */
-    public function it_can_display_all_transactions()
-    {
-        $transaction = create(Transaction::class);
-
-        $this->get(route('transactions.index'))
-            ->assertSee($transaction->description)
-            ->assertSee($transaction->category->name);
-    }
-
-    /** @test */
-    public function it_can_filter_transactions_by_category()
-    {
-        $category = create(Category::class);
-
-        $transaction = create(Transaction::class, [
-            'category_id' => $category->id
-        ]);
-
-        $newTransaction = create(Transaction::class);
-
-        $this->get(route('transactions.index', $category->slug))
-            ->assertSee($transaction->description)
-            ->assertDontSee($newTransaction->description);
-    }
-
      /** @test */
     public function it_can_create_transactions()
     {
-        $transaction = make(Transaction::class);
+        $transaction = $this->make(Transaction::class);
 
         $this->post('/transactions', $transaction->toArray())
             ->assertRedirect(route('transactions.index'));
@@ -72,23 +46,23 @@ class TransactionsTest extends TestCase
         $this->postTransaction(['amount' => null])
             ->assertSessionHasErrors('amount');
     }
+    
+    /** @test */
+    public function it_cannot_create_transactions_without_a_valid_amount()
+    {
+        $this->postTransaction(['amount' => 'c'])
+            ->assertSessionHasErrors('amount');
+    }
 
     public function postTransaction($attributes = []) {
 
-        $transaction = make(Transaction::class, $attributes);
+        $transaction = $this->make(Transaction::class, $attributes);
 
         return $this->withExceptionHandling()->post(
             '/transactions', 
             $transaction->toArray()
         );
 
-    }
-
-    /** @test */
-    public function it_cannot_create_transactions_without_a_valid_amount()
-    {
-        $this->postTransaction(['amount' => 'c'])
-            ->assertSessionHasErrors('amount');
     }
 
 }
