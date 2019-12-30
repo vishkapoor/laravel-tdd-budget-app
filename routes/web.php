@@ -22,6 +22,11 @@ Route::group([
 		'as' => 'transactions.create'
 	]);
 
+	Route::get('/{transaction}', [
+		'uses' => 'TransactionsController@edit',
+		'as' => 'transactions.edit'
+	]);
+	
 	Route::get('/{category?}', [
 		'uses' => 'TransactionsController@index',
 		'as' => 'transactions.index'
@@ -31,6 +36,13 @@ Route::group([
 		'uses' => 'TransactionsController@store',
 		'as' => 'transactions.store'
 	]);
+
+	Route::put('/{transaction}', [
+		'uses' => 'TransactionsController@update',
+		'as' => 'transactions.update'
+	]);
+
+
 
 });
 

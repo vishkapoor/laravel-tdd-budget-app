@@ -28,7 +28,8 @@ class TransactionsController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('transactions.create', compact('categories'));
+        $transaction = new Transaction;
+        return view('transactions.create', compact('categories', 'transaction'));
     }
 
     /**
@@ -64,24 +65,34 @@ class TransactionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Transaction $transaction
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Transaction $transaction)
     {
-        //
+        $categories = Category::all();
+        return view('transactions.edit', compact('transaction', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Transaction $transaction
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Transaction $transaction)
     {
-        //
+
+        $this->validate($request, [
+            'description' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'amount' => 'required|numeric'
+        ]);
+
+        $transaction->update($request->all());
+
+        return redirect('/transactions');
     }
 
     /**
