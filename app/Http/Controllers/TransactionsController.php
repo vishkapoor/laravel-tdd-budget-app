@@ -15,7 +15,7 @@ class TransactionsController extends Controller
      */
     public function index(Category $category)
     {
-        $transactions = Transaction::byCategory($category)->get();
+        $transactions = Transaction::byCategory($category)->paginate(10);
 
         return view('transactions.index', compact('transactions'));
     }
@@ -98,11 +98,13 @@ class TransactionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Transaction $transaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Transaction $transaction)
     {
-        //
+        $transaction->delete();
+
+        return redirect(route('transactions.index'));
     }
 }

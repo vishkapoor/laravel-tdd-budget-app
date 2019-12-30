@@ -22,16 +22,20 @@ Route::group([
 		'as' => 'transactions.create'
 	]);
 
-	Route::get('/{transaction}', [
-		'uses' => 'TransactionsController@edit',
-		'as' => 'transactions.edit'
-	]);
-	
 	Route::get('/{category?}', [
 		'uses' => 'TransactionsController@index',
 		'as' => 'transactions.index'
 	]);
-	
+
+	Route::get('/{transaction}', [
+		'uses' => 'TransactionsController@edit',
+		'as' => 'transactions.edit'
+	]);
+
+	Route::delete('/{transaction}', [
+		'uses' => 'TransactionsController@destroy',
+		'as' => 'transactions.destroy'
+	]);
 	Route::post('/', [
 		'uses' => 'TransactionsController@store',
 		'as' => 'transactions.store'
@@ -43,10 +47,7 @@ Route::group([
 	]);
 
 
-
 });
-
-
 
 Route::get('/', function () {
     return view('welcome');
