@@ -16,6 +16,12 @@ class Transaction extends Model
     	}
     }
 
+    public function scopeByMonth($query, $month) 
+    {
+        return $query->whereRaw(" concat(month(created_at), '-', year(created_at)) =  '" 
+            . $month . "-". date('Y') . "'");
+    }
+
     public function category()
     {
     	return $this->belongsTo(Category::class);

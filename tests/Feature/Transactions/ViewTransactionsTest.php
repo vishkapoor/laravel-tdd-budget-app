@@ -4,6 +4,7 @@ namespace Tests\Feature\Transactions;
 
 use App\Models\Category;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -59,5 +60,33 @@ class ViewTransactionsTest extends TestCase
         $this->get(route('transactions.index', $category->slug))
             ->assertSee($transaction->description)
             ->assertDontSee($newTransaction->description);
+    }
+    
+    /** @test */
+    public function it_can_filter_transactions_by_month()
+    {
+        $currentTransaction = $this->create(Transaction::class);
+        $pastTransaction = $this->create(Transaction::class, [
+            'created_at' => Carbon::now()->subMonths(2)
+        ]);
+
+        $this->get(route('transactions.index') 
+            . "?month=" . Carbon::now()->subMonths(2)->month)
+        ->assertSee($pastTransaction->description)
+        ->assertDontSee($currentTransaction->description);
+
+    }
+
+    /** @test */
+    public function if_can_filter_transactions_by_current_month_by_default()
+    {
+        $currentTransaction = $this->create(Transaction::class);
+        $pastTransaction = $this->create(Transaction::class, [
+            'created_at' => Carbon::now()->subMonths(2)
+        ]);
+
+        $this->get(route('transactions.index'))
+            ->assertSee($currentTransaction->description)
+            ->assertDontSee($pastTransaction->description);
     }
 }
