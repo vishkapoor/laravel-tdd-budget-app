@@ -2,8 +2,9 @@
 
 namespace Tests;
 
-use Exception;
 use App\Exceptions\Handler;
+use App\User;
+use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -16,7 +17,7 @@ abstract class TestCase extends BaseTestCase
     protected function setUp() : void
     {
     	parent::setUp();
-        $this->user = create('App\User');
+        $this->user = create(User::class);
     	$this->signIn($this->user)->disableExceptionHandling();
     }
 
@@ -55,6 +56,8 @@ abstract class TestCase extends BaseTestCase
 
     protected function create($class, $attributes = [], $times = null)
     {
+        // dump("here");
+        // dd(array_merge(['user_id' => $this->user->id], $attributes));
         return create(
             $class, 
             array_merge(['user_id' => $this->user->id], $attributes),

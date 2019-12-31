@@ -11,43 +11,20 @@
 |
 */
 
-Route::group([
-	'middleware' => ['auth'],
-	'prefix' => 'transactions'
-], function() {
+// 
 
+Route::resource('transactions', 'TransactionsController', [
+	'except' => [ 'show' ]
+])->middleware(['auth']);
 
-	Route::get('/create', [
-		'uses' => 'TransactionsController@create',
-		'as' => 'transactions.create'
-	]);
+Route::get('/transactions/{category?}', [
+	'uses' => 'TransactionsController@index',
+	'as' => 'transactions.index'
+]);
 
-	Route::get('/{category?}', [
-		'uses' => 'TransactionsController@index',
-		'as' => 'transactions.index'
-	]);
+Route::resource('categories', 'CategoriesController')
+	->middleware(['auth']);
 
-	Route::get('/{transaction}', [
-		'uses' => 'TransactionsController@edit',
-		'as' => 'transactions.edit'
-	]);
-
-	Route::delete('/{transaction}', [
-		'uses' => 'TransactionsController@destroy',
-		'as' => 'transactions.destroy'
-	]);
-	Route::post('/', [
-		'uses' => 'TransactionsController@store',
-		'as' => 'transactions.store'
-	]);
-
-	Route::put('/{transaction}', [
-		'uses' => 'TransactionsController@update',
-		'as' => 'transactions.update'
-	]);
-
-
-});
 
 Route::get('/', function () {
     return view('welcome');

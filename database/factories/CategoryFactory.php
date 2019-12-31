@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Models\Category;
+use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -22,6 +23,12 @@ $factory->define(Category::class, function (Faker $faker) {
 
     return [
         'name' => $name,
-        'slug' => str_slug($name)
+        'slug' => str_slug($name),
+        'user_id' => function() {
+        	if(User::all()->count()) {
+        		return User::all()->random()->id;
+        	}
+        	return create(User::class)->id;
+        }
     ];
 });

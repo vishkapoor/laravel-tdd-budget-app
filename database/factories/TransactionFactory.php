@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Models\Category;
 use App\Models\Transaction;
+use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -18,14 +19,21 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(Transaction::class, function (Faker $faker) {
+
     return [
         'description' => $faker->sentence(10),
         'amount' => $faker->numberBetween(5,10),
         'category_id' => function() {
-        	return create(Category::class)->id;
+            if(Category::all()->count()) {
+                return Category::all()->random()->id;
+            }
+            return create(Category::class)->id;
         },
-        'user_id' => function() {
-        	return create('App\User')->id;
+        'user_id' => function () {
+            if(User::all()->count()) {
+                return User::all()->random()->id;
+            }
+            return create(User::class)->id;
         }
     ];
 });

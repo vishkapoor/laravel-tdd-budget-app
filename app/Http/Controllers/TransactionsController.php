@@ -99,7 +99,7 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-
+     
         $this->validate($request, [
             'description' => 'required',
             'category_id' => 'required|exists:categories,id',

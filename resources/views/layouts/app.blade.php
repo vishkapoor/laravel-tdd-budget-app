@@ -33,12 +33,40 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"> 
-                            <a class="nav-link" href="/transactions">
-                            All Transactions</a></li>
-                        <li class="nav-item"> 
-                            <a class="nav-link" href="/transactions/create">
-                            Create Transaction</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" 
+                                id="transactionsDropdown" role="button" data-toggle="dropdown" 
+                                aria-haspopup="true" aria-expanded="false">
+                                Transactions
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="transactionsDropdown">
+                                <a class="dropdown-item" 
+                                    href="/transactions/create">
+                                    Create Transaction
+                                </a>
+                                <a class="dropdown-item" 
+                                    href="/transactions">
+                                    All Transactions
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" 
+                                id="transactionsDropdown" role="button" data-toggle="dropdown" 
+                                aria-haspopup="true" aria-expanded="false">
+                                Categories
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="transactionsDropdown">
+                                <a class="dropdown-item" 
+                                    href="/categories/create">
+                                    Create Category
+                                </a>
+                                <a class="dropdown-item" 
+                                    href="/categories">
+                                    All Categories
+                                </a>
+                            </div>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
