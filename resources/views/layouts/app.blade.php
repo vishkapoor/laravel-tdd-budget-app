@@ -52,11 +52,11 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" 
-                                id="transactionsDropdown" role="button" data-toggle="dropdown" 
+                                id="categoriesDropdown" role="button" data-toggle="dropdown" 
                                 aria-haspopup="true" aria-expanded="false">
                                 Categories
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="transactionsDropdown">
+                            <div class="dropdown-menu" aria-labelledby="categoriesDropdown">
                                 <a class="dropdown-item" 
                                     href="/categories/create">
                                     Create Category
@@ -64,6 +64,23 @@
                                 <a class="dropdown-item" 
                                     href="/categories">
                                     All Categories
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" 
+                                id="budgetsDropdown" role="button" data-toggle="dropdown" 
+                                aria-haspopup="true" aria-expanded="false">
+                                Budgets
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="budgetsDropdown">
+                                <a class="dropdown-item" 
+                                    href="/budgets/create">
+                                    Create Budget
+                                </a>
+                                <a class="dropdown-item" 
+                                    href="/budgets">
+                                    All Budgets
                                 </a>
                             </div>
                         </li>

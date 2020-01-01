@@ -20,8 +20,8 @@ class ViewTransactionsTest extends TestCase
     {
         $this->signOut()
             ->withExceptionHandling()
-            ->get('/transactions')
-            ->assertRedirect('/login');
+            ->get(route('transactions.index'))
+            ->assertRedirect(route('login'));
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class ViewTransactionsTest extends TestCase
             'user_id' => create(User::class)->id
         ]);
 
-        $this->get('/transactions')
+        $this->get(route('transactions.index'))
             ->assertSee($transaction->description)
             ->assertDontSee($otherTransaction->description);
 
@@ -73,7 +73,7 @@ class ViewTransactionsTest extends TestCase
             'category_id' => $newCategory->id
         ]);
 
-        $this->get(route('transactions.index', $category->slug))
+        $this->get(route('transactions.index') . '?category=' . $category->slug)
             ->assertSee($transaction->description)
             ->assertDontSee($newTransaction->description);
     }
@@ -86,14 +86,14 @@ class ViewTransactionsTest extends TestCase
         $currentTransaction = $this->create(Transaction::class, [
             'category_id' => $category->id
         ]);
-
         $pastTransaction = $this->create(Transaction::class, [
             'category_id' => $category->id,
-            'created_at' => Carbon::now()->subMonths(2)
+            'created_at' => Carbon::now()->subMonths(3)
         ]);
 
         $this->get(route('transactions.index') 
-            . "?month=" . Carbon::now()->subMonths(2)->month)
+            . "?month=" . Carbon::now()->subMonths(3)->month
+            . "&year=" . Carbon::now()->subMonths(3)->year)
         ->assertSee($pastTransaction->description)
         ->assertDontSee($currentTransaction->description);
 

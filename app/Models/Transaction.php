@@ -9,17 +9,19 @@ class Transaction extends Model
 {
     protected $guarded  = [];
 
-    public function scopeByCategory($query, Category $category) 
+    public function scopeByCategoryId($query, $id) 
     {
-    	if($category->exists) {
-    		return $query->where('category_id', $category->id);
-    	}
+        return $query->where('category_id', $id);
     }
 
     public function scopeByMonth($query, $month) 
     {
-        return $query->whereRaw(" concat(month(created_at), '-', year(created_at)) =  '" 
-            . $month . "-". date('Y') . "'");
+        return $query->whereRaw( 'month(created_at) = ' . $month );
+    }
+
+    public function scopeByYear($query, $year) 
+    {
+        return $query->whereRaw( 'year(created_at) = ' . $year );
     }
 
     public function category()

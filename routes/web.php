@@ -17,12 +17,12 @@ Route::resource('transactions', 'TransactionsController', [
 	'except' => [ 'show' ]
 ])->middleware(['auth']);
 
-Route::get('/transactions/{category?}', [
-	'uses' => 'TransactionsController@index',
-	'as' => 'transactions.index'
-]);
 
 Route::resource('categories', 'CategoriesController')
+	->middleware(['auth']);
+
+
+Route::resource('budgets', 'BudgetsController')
 	->middleware(['auth']);
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -11,6 +12,16 @@ class Category extends Model
     public function getRouteKeyName()
     {
     	return 'slug';
+    }
+
+    public function scopeBySlug($query, $slug)
+    {
+        return $query->where('slug', $slug);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'category_id');
     }
 
     public static function boot()

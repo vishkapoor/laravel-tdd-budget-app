@@ -15,13 +15,28 @@ class TransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $category)
+    public function index()
     {
-        $builder = Transaction::byCategory($category);
+        $builder = (new Transaction)->newQuery();
 
-        $month = request('month') ?: Carbon::now()->month;
+        if(request()->has('category')) {
+            $category = Category::bySlug(request('category'))->first();
+            $builder = $builder->byCategoryId($category->id);
+        }
+        
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
 
-        $transactions = $builder->byMonth($month)->paginate(10);
+        if(request()->has('month') && request()->has('year')) {
+            $month = request('month');
+            $year = request('year');
+        }
+
+
+        $transactions = $builder
+            ->byMonth($month)
+            ->byYear($year)    
+            ->paginate(10);
 
         $categories = Category::orderBy('name', 'asc')->get();
 
