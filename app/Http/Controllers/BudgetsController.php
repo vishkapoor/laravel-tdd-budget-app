@@ -32,7 +32,7 @@ class BudgetsController extends Controller
             $builder =  $builder->byMonth($month);
         }
 
-        $budgets = $builder->get();
+        $budgets = $builder->with('category.transactions')->get();
 
         $months = Month::get();
         $categories = Category::orderBy('name', 'asc')->get();
