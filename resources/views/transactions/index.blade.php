@@ -11,7 +11,7 @@
 					<select 
 						class="form-control" 
 						id="categoryFilter" 
-						onchange="window.location='/transactions/' + this.value">
+						onchange="window.location='/transactions?category=' + this.value">
 						@foreach($categories as $category)
 							<option value="{{$category->slug}}">{{$category->name}}</option>
 						@endforeach
