@@ -23,23 +23,24 @@ class TransactionsController extends Controller
             $category = Category::bySlug(request('category'))->first();
             $builder = $builder->byCategoryId($category->id);
         }
-        
-        $month = Carbon::now()->month;
-        $year = Carbon::now()->year;
 
-        if(request()->has('month') && request()->has('year')) {
-            $month = request('month');
+        $month = null;
+        if(request()->has('month') && !empty(request('month'))) {
+            $builder = $builder->byMonth(request('month'));
+            $month = request('year');
+        }
+
+        $year = null;
+        if(request()->has('year') && !empty(request('year'))) {
+            $builder = $builder->byYear(request('year'));
             $year = request('year');
         }
 
-
-        $transactions = $builder
-            ->byMonth($month)
-            ->byYear($year)    
+        $transactions = $builder->with('category')
             ->paginate(10);
 
         $categories = Category::orderBy('name', 'asc')->get();
-
+        
         $months = Month::get();
 
         return view('transactions.index', compact(

@@ -100,7 +100,7 @@ class ViewTransactionsTest extends TestCase
     }
 
     /** @test */
-    public function if_can_filter_transactions_by_current_month_by_default()
+    public function if_can_filter_transactions_by_selected_month_by_default()
     {
         $category = $this->create(Category::class);
 
@@ -113,7 +113,8 @@ class ViewTransactionsTest extends TestCase
             'created_at' => Carbon::now()->subMonths(2)
         ]);
 
-        $this->get(route('transactions.index'))
+        $this->get(route('transactions.index') 
+            . "?month=" . Carbon::parse($currentTransaction->created_at)->month)
             ->assertSee($currentTransaction->description)
             ->assertDontSee($pastTransaction->description);
     }
